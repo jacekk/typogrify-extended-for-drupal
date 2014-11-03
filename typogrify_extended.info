@@ -4,5 +4,4 @@ package = "Input filters"
 version = 7.x-0.1
 core = 7.x
 
-dependencies[] = typogrify
 configure = admin/config/content/formats

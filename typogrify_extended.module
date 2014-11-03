@@ -4,3 +4,52 @@
  * 'typogrify_extended' module file.
  * @author JacekK
  */
+
+/**
+ * Implements hook_filter_info().
+ */
+function typogrify_extended_filter_info()
+{
+    return array(
+        'typogrify_extended' => array(
+            'title' => t('Typogrify Extended'),
+            // 'description' => '',
+            'process callback' => '_typogrify_extended__process',
+            'settings callback' => '_typogrify_extended__settings',
+            'default settings' => array(
+                'remove_orphans' => 0,
+            ),
+        ),
+    );
+}
+
+function _typogrify_extended__process($text, $filter, $format, $langcode, $cache, $cache_id)
+{
+    if ($filter->settings['remove_orphans']) {
+        $text = _typogrify_extended__remove_orphans($text);
+    }
+    return $text;
+}
+
+/**
+ * Removes orphans by replacing them into span with nowrap style.
+ */
+function _typogrify_extended__remove_orphans($text)
+{
+    $pattern = '# ([\w]{1}) ([a-zążśźęćńółĄŻŚŹĘĆŃÓŁ\d]{2,})#iu';
+    $replace = ' <span style="white-space:nowrap;">${1} ${2}</span>';
+    return preg_replace($pattern, $replace, $text);
+}
+
+function _typogrify_extended__settings($form, &$form_state, $filter, $format, $defaults, $filters)
+{
+    $filter->settings += $defaults;
+    $form = array();
+
+    $form['remove_orphans'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Remove orphans'),
+        '#default_value' => $defaults['remove_orphans'],
+    );
+    return $form;
+}
