@@ -49,7 +49,7 @@ function _typogrify_extended__settings($form, &$form_state, $filter, $format, $d
     $form['remove_orphans'] = array(
         '#type' => 'checkbox',
         '#title' => t('Remove orphans'),
-        '#default_value' => $defaults['remove_orphans'],
+        '#default_value' => $filter->settings['remove_orphans'],
     );
     return $form;
 }
