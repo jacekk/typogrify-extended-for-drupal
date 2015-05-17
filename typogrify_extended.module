@@ -36,7 +36,7 @@ function _typogrify_extended__process($text, $filter, $format, $langcode, $cache
  */
 function _typogrify_extended__remove_orphans($text)
 {
-    $pattern = '# ([\w]{1}) ([a-zążśźęćńółĄŻŚŹĘĆŃÓŁ\d]{2,})#iu';
+    $pattern = '# ([\w]{1}) ([\w,\.\!\?]{2,})#iu';
     $replace = ' <span style="white-space:nowrap;">${1} ${2}</span>';
     return preg_replace($pattern, $replace, $text);
 }
